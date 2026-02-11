@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment Hub - Experiments</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero compact">
+      <div class="hero-glow"></div>
+      <div class="container">
+        <p class="eyebrow">A/B Testing Platform</p>
+        <h1>All Experiments</h1>
+      </div>
+    </header>
+
+    <main class="container page">
+      <section class="panel controls">
+        <div class="controls-row">
+          <h2>Experiment List</h2>
+          <a class="btn btn-secondary" href="index.html">Back to Dashboard</a>
+        </div>
+
+        <div class="search-wrap">
+          <label for="allSearch" class="sr-only">Search all experiments</label>
+          <input id="allSearch" type="search" placeholder="Search all experiments..." />
+        </div>
+      </section>
+
+      <section class="panel">
+        <ul id="allList" class="experiment-list"></ul>
+        <p id="emptyAll" class="empty-state" hidden>No experiments match your search.</p>
+      </section>
+    </main>
+
+    <script src="data.js?v=20260211-rbac-workspace-iter16"></script>
+    <script src="experiments.js?v=20260211-rbac-workspace-iter16"></script>
+  </body>
+</html>

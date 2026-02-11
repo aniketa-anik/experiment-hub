@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment Hub - Home</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-glow"></div>
+      <div class="container">
+        <p class="eyebrow">A/B Testing Platform</p>
+        <h1>Experiment Hub</h1>
+        <p class="subtitle">Track, search, and launch experiments without the clutter.</p>
+      </div>
+    </header>
+
+    <main class="container page">
+      <section class="panel controls">
+        <button id="addExperimentBtn" class="btn btn-primary" type="button">+ Add New Experiment</button>
+
+        <h2 class="section-title">Recent Experiments</h2>
+
+        <div class="search-wrap">
+          <label for="homeSearch" class="sr-only">Search experiments</label>
+          <input id="homeSearch" type="search" placeholder="Search experiments by name or owner..." />
+        </div>
+
+        <ul id="recentList" class="experiment-list"></ul>
+        <p id="emptyRecent" class="empty-state" hidden>No experiments match your search.</p>
+      </section>
+
+      <div class="footer-action">
+        <a class="btn btn-secondary" href="experiments.html">See All Experiments</a>
+      </div>
+    </main>
+
+    <script src="data.js"></script>
+    <script src="home.js"></script>
+  </body>
+</html>

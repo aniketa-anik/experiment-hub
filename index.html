@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Experiment Hub</title>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <section id="login-page" class="view view-login">
+      <main class="auth-shell">
+        <section class="visual-panel" aria-label="Product overview">
+          <div class="visual-top">
+            <p class="brand">Experiment Hub</p>
+          </div>
+
+          <div class="visual-card">
+            <p class="mini-label">Why teams choose us</p>
+            <h2>Run faster A/B tests with confidence.</h2>
+            <ul>
+              <li>Launch experiments in minutes</li>
+              <li>Track winning variants by conversion impact</li>
+              <li>Share results across product, growth, and marketing teams</li>
+            </ul>
+          </div>
+
+          <div class="visual-foot">
+            <p>Test ideas faster, ship winners sooner.</p>
+            <div class="dots" aria-hidden="true">
+              <span></span><span></span><span class="active"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-panel" aria-label="Account form">
+          <div class="form-head">
+            <h1>Create your workspace</h1>
+            <p>Sign in with your company account.</p>
+          </div>
+
+          <form id="authForm" class="auth-form" novalidate>
+            <div class="grid-2" id="nameFields">
+              <label>
+                First name
+                <input type="text" id="firstName" name="firstName" placeholder="Aarav" required />
+              </label>
+              <label>
+                Last name
+                <input type="text" id="lastName" name="lastName" placeholder="Sharma" required />
+              </label>
+            </div>
+
+            <label>
+              Work email
+              <input type="email" id="email" name="email" placeholder="you@company.com" required />
+            </label>
+
+            <label id="companyField">
+              Company name
+              <input type="text" id="company" name="company" placeholder="Acme Labs" required />
+            </label>
+
+            <label>
+              Password
+              <div class="password-wrap">
+                <input type="password" id="password" name="password" placeholder="Enter your password" minlength="8" required />
+                <button type="button" id="togglePassword" class="eye-btn" aria-label="Show password">Show</button>
+              </div>
+            </label>
+
+            <label class="terms-row" id="termsRow">
+              <input type="checkbox" id="terms" required />
+              <span>I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></span>
+            </label>
+
+            <button type="submit" class="primary-cta" id="submitBtn">Continue</button>
+
+            <div class="divider" role="separator" aria-label="Alternative sign in">
+              <span></span>
+              <p>Or continue with</p>
+              <span></span>
+            </div>
+
+            <div class="oauth-row">
+              <button type="button" class="oauth-btn">Google</button>
+              <button type="button" class="oauth-btn">Microsoft</button>
+            </div>
+
+            <p id="formMessage" class="form-message" aria-live="polite"></p>
+            <p class="auth-switch">
+              New here?
+              <button type="button" id="openSignupBtn" class="auth-link-btn">Create an Account</button>
+            </p>
+          </form>
+        </section>
+      </main>
+    </section>
+
+    <section id="signup-page" class="view view-login" style="display: none">
+      <main class="auth-shell">
+        <section class="visual-panel" aria-label="Product overview">
+          <div class="visual-top">
+            <p class="brand">Experiment Hub</p>
+          </div>
+
+          <div class="visual-card">
+            <p class="mini-label">Why teams choose us</p>
+            <h2>Run faster A/B tests with confidence.</h2>
+            <ul>
+              <li>Launch experiments in minutes</li>
+              <li>Track winning variants by conversion impact</li>
+              <li>Share results across product, growth, and marketing teams</li>
+            </ul>
+          </div>
+
+          <div class="visual-foot">
+            <p>Test ideas faster, ship winners sooner.</p>
+            <div class="dots" aria-hidden="true">
+              <span></span><span></span><span class="active"></span>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-panel" aria-label="Sign up form">
+          <div class="form-head">
+            <h1>Create your account</h1>
+            <p>Set your credentials to get started.</p>
+          </div>
+
+          <form id="signupForm" class="auth-form" novalidate>
+            <label>
+              Email Address
+              <input type="email" id="signupEmail" placeholder="you@company.com" required />
+            </label>
+
+            <label>
+              Password
+              <div class="password-wrap">
+                <input type="password" id="signupPassword" placeholder="Enter your password" required />
+                <button type="button" id="toggleSignupPassword" class="eye-btn" aria-label="Show password">Show</button>
+              </div>
+            </label>
+
+            <label>
+              Confirm Password
+              <div class="password-wrap">
+                <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required />
+                <button type="button" id="toggleSignupConfirmPassword" class="eye-btn" aria-label="Show confirm password">
+                  Show
+                </button>
+              </div>
+            </label>
+
+            <button type="submit" class="primary-cta">Create Account</button>
+            <p id="signupMessage" class="form-message" aria-live="polite"></p>
+            <p class="auth-switch">
+              Already have an account?
+              <button type="button" id="openLoginBtn" class="auth-link-btn">Log In</button>
+            </p>
+          </form>
+        </section>
+      </main>
+    </section>
+
+    <section id="dashboardView" class="view view-dashboard" style="display: none">
+      <header class="hero">
+        <div class="hero-glow"></div>
+        <div class="container">
+          <div class="top-nav">
+            <button type="button" id="manageMetadataBtn" class="btn btn-secondary" style="display: none">Manage Metadata</button>
+            <button type="button" id="profileBtn" class="profile-chip" aria-label="Open profile">AR</button>
+            <button type="button" id="logoutBtn" class="logout-link">Logout</button>
+          </div>
+          <p class="eyebrow">A/B Testing Platform</p>
+          <h1>Experiment Hub</h1>
+          <p class="subtitle">Track, search, and launch experiments without the clutter.</p>
+        </div>
+      </header>
+
+      <main class="container page">
+        <section class="panel controls">
+          <button id="addExperimentBtn" class="btn btn-primary" type="button">+ Add New Experiment</button>
+          <h2 class="section-title">Recent Experiments</h2>
+
+          <div class="search-wrap">
+            <label for="homeSearch" class="sr-only">Search experiments</label>
+            <input id="homeSearch" type="search" placeholder="Search experiments by name or owner..." />
+          </div>
+
+          <ul id="recentList" class="experiment-list"></ul>
+          <p id="emptyRecent" class="empty-state" hidden>No experiments match your search.</p>
+        </section>
+
+        <div class="footer-action">
+          <a class="btn btn-secondary" href="experiments.html">See All Experiments</a>
+        </div>
+      </main>
+    </section>
+
+    <section id="profileView" class="view view-profile" style="display: none">
+      <header class="hero compact">
+        <div class="hero-glow"></div>
+        <div class="container">
+          <p class="eyebrow">User Profile</p>
+          <h1>Profile Overview</h1>
+        </div>
+      </header>
+
+      <main class="container page">
+        <section class="panel profile-card">
+          <h2>Alex Rivera</h2>
+          <p class="profile-sub">Lead Product Manager</p>
+
+          <div class="profile-grid">
+            <p><strong>Team:</strong> Growth & Experimentation</p>
+            <p><strong>Email:</strong> admin@company.com</p>
+            <p><strong>Experiments Run:</strong> 12</p>
+            <p><strong>Active Tests:</strong> 3</p>
+          </div>
+
+          <button type="button" id="backToDashboardBtn" class="btn btn-secondary">Back to Dashboard</button>
+        </section>
+      </main>
+    </section>
+
+    <div id="experiment-form-page" class="view" style="display: none">
+      <header class="hero compact">
+        <div class="container">
+          <div class="config-head-row">
+            <div>
+              <p class="eyebrow">Experiment Setup</p>
+              <h1>Configure Experiment <span id="configTitleMode" class="config-mode">(New)</span></h1>
+            </div>
+            <button type="button" id="configBackBtn" class="btn btn-secondary">Back to Dashboard</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="container page">
+        <div class="panel workspace-panel">
+          <nav class="workspace-tabs" aria-label="Experiment workspace tabs">
+            <button type="button" class="workspace-tab is-active" data-tab="configuration">Configuration</button>
+            <button type="button" class="workspace-tab" data-tab="analytics">Analytics</button>
+            <button type="button" class="workspace-tab" data-tab="history">History</button>
+          </nav>
+
+          <section id="workspaceConfigurationPanel" class="workspace-content">
+            <form id="experimentConfigForm" class="config-form" novalidate>
+              <div class="config-top-grid">
+                <label>
+                  Experiment Name
+                  <input type="text" name="experimentName" placeholder="e.g. Homepage Hero Test" required />
+                </label>
+                <label>
+                  Feature Name
+                  <input type="text" name="featureName" placeholder="e.g. Hero Banner" required />
+                </label>
+              </div>
+
+              <div class="filter-builder-head">
+                <h2 class="section-title">Filter Builder</h2>
+                <button type="button" id="addFilterRuleBtn" class="btn btn-secondary">+ Add Filter Rule</button>
+              </div>
+              <div id="filterRulesContainer" class="filter-rules"></div>
+
+              <div class="rollout-row">
+                <label for="rolloutControl">Rollout Control</label>
+                <input type="range" id="rolloutControl" name="rollout" min="0" max="100" value="50" />
+                <span id="rolloutValue" class="rollout-value">50%</span>
+              </div>
+
+              <section class="test-logic-box">
+                <h2 class="section-title">Test Logic</h2>
+                <div class="test-row">
+                  <select name="testBy">
+                    <option>User ID</option>
+                    <option>Email ID</option>
+                    <option>Mobile Number</option>
+                  </select>
+                  <input type="text" name="testValue" placeholder="Type value here..." />
+                  <button type="button" id="testBtn" class="btn btn-primary">Test</button>
+                </div>
+              </section>
+
+              <div class="config-footer">
+                <button type="button" id="saveDraftBtn" class="btn btn-secondary">Save Draft</button>
+                <button type="button" id="publishExperimentBtn" class="btn btn-primary">Publish Experiment</button>
+                <button type="button" id="pauseResumeBtn" class="btn btn-warning" style="display: none">Pause Experiment</button>
+                <button type="button" id="scheduleBtn" class="btn btn-secondary">Schedule</button>
+                <button type="button" id="configCloseBtn" class="btn btn-secondary">Close</button>
+              </div>
+
+              <div id="scheduleWrap" class="schedule-wrap" style="display: none">
+                <label>
+                  Start Time
+                  <input type="datetime-local" name="scheduleAt" />
+                </label>
+              </div>
+            </form>
+          </section>
+
+          <section id="workspaceAnalyticsPanel" class="workspace-content" style="display: none">
+            <div class="analytics-header">
+              <div>
+                <h2 id="analyticsExperimentName">Experiment Name</h2>
+                <p id="analyticsFeatureName" class="analytics-sub">Feature Name</p>
+              </div>
+              <div class="analytics-header-right">
+                <span id="analyticsStatusBadge" class="status saved">Saved</span>
+                <span id="analyticsRollout" class="rollout-pill">0%</span>
+              </div>
+            </div>
+
+            <div id="analyticsEmptyState" class="analytics-empty" style="display: none">
+              <div class="analytics-empty-illustration">📈</div>
+              <p>We're collecting data. Check back after the experiment starts.</p>
+            </div>
+
+            <div id="analyticsDataSections">
+              <div class="kpi-strip">
+                <article class="kpi-card">
+                  <p>Lift</p>
+                  <h3 id="kpiLift" class="kpi-positive">+0.0%</h3>
+                </article>
+                <article class="kpi-card">
+                  <p>Significance</p>
+                  <h3 id="kpiSignificance">Inconclusive</h3>
+                </article>
+                <article class="kpi-card">
+                  <p>Users Exposed</p>
+                  <h3 id="kpiUsers">0</h3>
+                </article>
+                <article class="kpi-card">
+                  <p>Guardrails</p>
+                  <h3 id="kpiGuardrails">All Healthy</h3>
+                </article>
+                <article class="kpi-card">
+                  <p>Recommendation</p>
+                  <h3 id="kpiRecommendation">Wait</h3>
+                </article>
+              </div>
+
+              <section class="analytics-card">
+                <div class="metric-sticky">
+                  <label>
+                    View Metric
+                    <select id="metricViewSelect">
+                      <option value="signup_success_rate">Sign-up Success Rate</option>
+                      <option value="day1_day7_retention">Day 1 to Day 7 Retention</option>
+                      <option value="conversion_rate">Conversion Rate</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="table-wrap">
+                  <table class="comparison-table">
+                    <thead>
+                      <tr>
+                        <th>Variant</th>
+                        <th>Users</th>
+                        <th>Value</th>
+                        <th>Lift</th>
+                        <th>P-Value</th>
+                      </tr>
+                    </thead>
+                    <tbody id="comparisonTableBody"></tbody>
+                  </table>
+                </div>
+              </section>
+
+              <section class="analytics-card">
+                <div class="trend-header">
+                  <h3>Trend</h3>
+                  <div class="trend-toggle">
+                    <label><input type="radio" name="trendMode" value="daily" checked /> Daily</label>
+                    <label><input type="radio" name="trendMode" value="cumulative" /> Cumulative</label>
+                  </div>
+                </div>
+                <canvas id="analyticsTrendChart" height="120"></canvas>
+              </section>
+
+              <details class="analytics-card">
+                <summary>Segmentation: New vs Returning</summary>
+                <div id="segmentationBreakdown" class="details-grid"></div>
+              </details>
+
+              <section class="analytics-card">
+                <h3>Guardrails</h3>
+                <div id="guardrailGrid" class="guardrail-grid"></div>
+              </section>
+
+              <details class="analytics-card">
+                <summary>Statistics</summary>
+                <div id="statsGrid" class="details-grid"></div>
+              </details>
+
+              <section class="analytics-card">
+                <h3>Decision Log</h3>
+                <label>
+                  Learnings
+                  <textarea id="decisionLearnings" rows="4" placeholder="Capture insights from this experiment..."></textarea>
+                </label>
+                <label>
+                  Decision
+                  <select id="decisionSelect">
+                    <option>Ship</option>
+                    <option>Iterate</option>
+                    <option>Stop</option>
+                  </select>
+                </label>
+              </section>
+            </div>
+          </section>
+
+          <section id="workspaceHistoryPanel" class="workspace-content" style="display: none">
+            <div class="history-panel">
+              <h3>History</h3>
+              <p class="history-subtitle">All changes to this experiment are tracked here.</p>
+              <p id="historyEmpty" class="empty-state" hidden>No history yet. Save or publish this experiment to create entries.</p>
+              <ul id="historyTimeline" class="history-timeline"></ul>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div id="metadataModal" class="modal-shell" style="display: none" aria-hidden="true">
+      <div class="modal-card panel">
+        <div class="modal-head">
+          <h2>Manage Filter Definitions</h2>
+          <button type="button" id="closeMetadataBtn" class="btn btn-secondary">Close</button>
+        </div>
+
+        <form id="metadataForm" class="metadata-form" novalidate>
+          <label>
+            Field Name
+            <input type="text" id="metaFieldName" placeholder="e.g. New City Flag" required />
+          </label>
+
+          <label>
+            Data Type
+            <select id="metaDataType">
+              <option value="dropdown">Dropdown</option>
+              <option value="text">Text</option>
+              <option value="date">Date</option>
+            </select>
+          </label>
+
+          <label>
+            Allowed Values (CSV)
+            <input type="text" id="metaAllowedValues" placeholder="e.g. New York, London, Tokyo" />
+          </label>
+
+          <div class="config-footer">
+            <button type="submit" class="btn btn-primary">Save Definition</button>
+          </div>
+        </form>
+
+        <div class="definition-list-wrap">
+          <h3>Current Definitions</h3>
+          <ul id="metadataList" class="definition-list"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="data.js?v=20260211-rbac-workspace-iter16"></script>
+    <script src="app.js?v=20260211-rbac-workspace-iter16"></script>
+  </body>
+</html>
