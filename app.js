@@ -2202,6 +2202,55 @@
     updateKpiStripForAnalytics(currentAnalyticsData, mode);
   }
 
+  function toFilterOperatorEnglish(operator) {
+    const op = String(operator || "").trim().toLowerCase();
+    if (op === "is") return "is";
+    if (op === "is not") return "is not";
+    if (op === "contains") return "contains";
+    if (op === "does not contain") return "does not contain";
+    if (op === "starts with") return "starts with";
+    if (op === "ends with") return "ends with";
+    if (op === "greater than") return "is greater than";
+    if (op === "less than") return "is less than";
+    if (op === "exists") return "exists";
+    return op || "is";
+  }
+
+  function buildFiltersSummaryTextForPdf(filters) {
+    const builder = normalizeFilterBuilder(filters);
+    const groups = Array.isArray(builder.groups) ? builder.groups : [];
+    const validGroups = groups
+      .map((group) => {
+        const conditions = Array.isArray(group && group.conditions) ? group.conditions : [];
+        const validConditions = conditions.filter((rule) => {
+          const attribute = String((rule && rule.attribute) || "").trim();
+          const operator = String((rule && rule.operator) || "").trim().toLowerCase();
+          const value = String((rule && rule.value) || "").trim();
+          return Boolean(attribute) && (operator === "exists" || Boolean(value));
+        });
+        return { conditions: validConditions };
+      })
+      .filter((group) => group.conditions.length > 0);
+
+    if (!validGroups.length) return "No filters applied";
+
+    const groupText = validGroups.map((group) => {
+      const groupBody = group.conditions
+        .map((rule) => {
+          const attribute = String(rule.attribute || "").trim();
+          const operator = toFilterOperatorEnglish(rule.operator);
+          const value = String((rule && rule.value) || "").trim();
+          return String(operator).toLowerCase() === "exists"
+            ? `${attribute} exists`
+            : `${attribute} ${operator} ${value}`;
+        })
+        .join(" OR ");
+      return group.conditions.length > 1 ? `(${groupBody})` : groupBody;
+    });
+
+    return groupText.join(" AND ");
+  }
+
   async function downloadAnalyticsAsPdf() {
     if (!window.html2canvas || !window.jspdf || !window.jspdf.jsPDF) {
       throw new Error("PDF libraries are not loaded. Refresh the page and try again.");
@@ -2227,31 +2276,75 @@
       sourceNode.style.overflow = wasOverflow;
     }
 
+    const allExperiments = getExperiments();
+    const selectedExperiment =
+      allExperiments.find((item) => Number(item.id) === Number(editingExperimentId)) || {};
+    const experimentNameText = String(selectedExperiment.name || configForm.elements.experimentName.value || "Untitled Experiment").trim();
+    const featureNameText = String(configForm.elements.featureName.value || (selectedExperiment.config && selectedExperiment.config.featureName) || "N/A").trim();
+    const rolloutText = `${Number(configForm.elements.rollout.value || (selectedExperiment.config && selectedExperiment.config.rollout) || 0)}%`;
+    const filtersSummaryText = buildFiltersSummaryTextForPdf(readFilterRules());
+
     const imageData = canvas.toDataURL("image/png");
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF("p", "mm", "a4");
     const pageWidth = pdf.internal.pageSize.getWidth();
     const pageHeight = pdf.internal.pageSize.getHeight();
     const margin = 10;
-    const imageWidth = pageWidth - margin * 2;
-    const imageHeight = (canvas.height * imageWidth) / canvas.width;
+    const contentWidth = pageWidth - margin * 2;
 
-    if (imageHeight <= pageHeight - margin * 2) {
-      pdf.addImage(imageData, "PNG", margin, margin, imageWidth, imageHeight);
+    const drawLabeledValue = (label, value, x, y, maxWidth) => {
+      const labelText = `${label} `;
+      pdf.setFont("helvetica", "bold");
+      pdf.text(labelText, x, y);
+      const valueX = x + pdf.getTextWidth(labelText) + 1.5;
+      pdf.setFont("helvetica", "normal");
+      const valueLines = pdf.splitTextToSize(String(value || ""), Math.max(20, maxWidth - (valueX - x)));
+      pdf.text(valueLines, valueX, y);
+      return Math.max(1, valueLines.length);
+    };
+
+    let y = margin;
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(12);
+    pdf.text("Experiment Summary", margin, y);
+    y += 7;
+
+    const leftColX = margin;
+    const rightColX = margin + contentWidth / 2;
+    pdf.setFontSize(10);
+    const row1LeftLines = drawLabeledValue("Experiment Name:", experimentNameText, leftColX, y, contentWidth / 2 - 4);
+    const row1RightLines = drawLabeledValue("Feature Name:", featureNameText, rightColX, y, contentWidth / 2 - 4);
+    y += Math.max(row1LeftLines, row1RightLines) * 4.6 + 2.4;
+
+    const row2LeftLines = drawLabeledValue("Rollout %:", rolloutText, leftColX, y, contentWidth / 2 - 4);
+    const row2RightLines = drawLabeledValue("Filters Applied:", filtersSummaryText, rightColX, y, contentWidth / 2 - 4);
+    y += Math.max(row2LeftLines, row2RightLines) * 4.6 + 2.4;
+
+    y += 2;
+    pdf.setDrawColor(226, 232, 240);
+    pdf.line(margin, y, pageWidth - margin, y);
+    y += 4;
+
+    const imageWidth = contentWidth;
+    const imageHeight = (canvas.height * imageWidth) / canvas.width;
+    const availableFirstPageHeight = pageHeight - y - margin;
+
+    if (imageHeight <= availableFirstPageHeight) {
+      pdf.addImage(imageData, "PNG", margin, y, imageWidth, imageHeight);
     } else {
       let heightLeft = imageHeight;
-      let offsetY = margin;
+      let offsetY = y;
       pdf.addImage(imageData, "PNG", margin, offsetY, imageWidth, imageHeight);
-      heightLeft -= pageHeight - margin * 2;
+      heightLeft -= availableFirstPageHeight;
+
       while (heightLeft > 0) {
-        offsetY = heightLeft - imageHeight + margin;
         pdf.addPage();
+        offsetY = margin - (imageHeight - heightLeft);
         pdf.addImage(imageData, "PNG", margin, offsetY, imageWidth, imageHeight);
         heightLeft -= pageHeight - margin * 2;
       }
     }
 
-    const allExperiments = getExperiments();
     const experimentName =
       String((allExperiments.find((item) => Number(item.id) === Number(editingExperimentId)) || {}).name || "experiment")
         .toLowerCase()
