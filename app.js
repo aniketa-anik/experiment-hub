@@ -468,7 +468,7 @@
     const title = document.querySelector(".form-head h1");
     const sub = document.querySelector(".form-head p");
     title.textContent = "Log in to Experiment Hub";
-    sub.innerHTML = "Use your registered credentials. Default admin: <strong>admin@company.com / 1234</strong>.";
+    sub.textContent = "Use your registered credentials.";
 
     nameFields.style.display = "none";
     companyField.style.display = "none";
