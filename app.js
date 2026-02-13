@@ -2251,8 +2251,9 @@
       }
     }
 
+    const allExperiments = getExperiments();
     const experimentName =
-      String((experiments.find((item) => item.id === editingExperimentId) || {}).name || "experiment")
+      String((allExperiments.find((item) => Number(item.id) === Number(editingExperimentId)) || {}).name || "experiment")
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-+|-+$/g, "") || "experiment";

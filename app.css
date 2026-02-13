@@ -592,7 +592,29 @@ select:focus {
   cursor: pointer;
   min-width: 260px;
   text-align: left;
-  padding-right: 2rem;
+  padding-right: 2.6rem;
+}
+
+.workspace-switcher-caret {
+  position: absolute;
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workspace-switcher-caret svg {
+  width: 16px;
+  height: 16px;
+  stroke: #334155;
+  stroke-width: 2.1;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .workspace-switcher-toggle-label {

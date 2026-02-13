@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Experiment Hub</title>
-    <link rel="stylesheet" href="app.css?v=20260213-rbac-workspace-iter137" />
+    <link rel="stylesheet" href="app.css?v=20260213-rbac-workspace-iter140" />
   </head>
   <body>
     <button type="button" id="globalBackBtn" class="global-back-btn" aria-label="Go back" style="display: none">
@@ -295,6 +295,12 @@
               >
                 <span class="workspace-switcher-toggle-label">Experiment:</span>
                 <span id="workspaceSwitcherLabel">New Experiment</span>
+                <span class="workspace-switcher-caret" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+                    <path d="M7 10l5-5 5 5" />
+                    <path d="M17 14l-5 5-5-5" />
+                  </svg>
+                </span>
               </button>
               <aside id="workspaceSwitcherPanel" class="workspace-switcher-panel workspace-switcher-inline-panel" aria-hidden="true">
                 <div class="workspace-switcher-head">
@@ -593,7 +599,7 @@
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="data.js?v=20260213-rbac-workspace-iter137"></script>
-    <script src="app.js?v=20260213-rbac-workspace-iter137"></script>
+    <script src="data.js?v=20260213-rbac-workspace-iter140"></script>
+    <script src="app.js?v=20260213-rbac-workspace-iter140"></script>
   </body>
 </html>
