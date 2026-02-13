@@ -2769,14 +2769,10 @@
   }
 
   function showOneRunFilterDebug(payload) {
+    // Debug panel is disabled in production UI.
     if (!filterDebugPanel) return;
-    if (localStorage.getItem(FILTER_DEBUG_ONCE_KEY) === "done") {
-      filterDebugPanel.style.display = "none";
-      return;
-    }
-    filterDebugPanel.textContent = `Filter Debug (one-time)\n${safeStringify(payload)}`;
-    filterDebugPanel.style.display = "block";
-    localStorage.setItem(FILTER_DEBUG_ONCE_KEY, "done");
+    filterDebugPanel.style.display = "none";
+    filterDebugPanel.textContent = "";
   }
 
   function getOnboardingColumnName(attributeName) {
