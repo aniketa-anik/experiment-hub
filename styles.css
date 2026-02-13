@@ -240,6 +240,10 @@ input[type="search"]:focus {
   color: #64748b;
 }
 
+.icon-action.delete-action {
+  color: #b91c1c;
+}
+
 .icon-action:hover {
   background: #f8fafc;
 }

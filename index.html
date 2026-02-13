@@ -4,10 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Experiment Hub</title>
-    <link rel="stylesheet" href="app.css" />
+    <link rel="stylesheet" href="app.css?v=20260213-rbac-workspace-iter136" />
   </head>
   <body>
-    <section id="login-page" class="view view-login">
+    <button type="button" id="globalBackBtn" class="global-back-btn" aria-label="Go back" style="display: none">
+      <span class="global-back-icon">←</span>
+      <span>Back</span>
+    </button>
+
+    <section id="login-page" class="view view-login" style="display: none">
       <main class="auth-shell">
         <section class="visual-panel" aria-label="Product overview">
           <div class="visual-top">
@@ -129,8 +134,23 @@
 
           <form id="signupForm" class="auth-form" novalidate>
             <label>
+              Full Name
+              <input type="text" id="signupFullName" placeholder="Alex Rivera" required />
+            </label>
+
+            <label>
               Email Address
               <input type="email" id="signupEmail" placeholder="you@company.com" required />
+            </label>
+
+            <label>
+              Role (Optional)
+              <input type="text" id="signupRole" placeholder="e.g. Product Manager" />
+            </label>
+
+            <label>
+              Team (Optional)
+              <input type="text" id="signupTeam" placeholder="e.g. Growth" />
             </label>
 
             <label>
@@ -163,44 +183,65 @@
     </section>
 
     <section id="dashboardView" class="view view-dashboard" style="display: none">
-      <header class="hero">
-        <div class="hero-glow"></div>
-        <div class="container">
-          <div class="top-nav">
-            <button type="button" id="manageMetadataBtn" class="btn btn-secondary" style="display: none">Manage Metadata</button>
-            <button type="button" id="profileBtn" class="profile-chip" aria-label="Open profile">AR</button>
-            <button type="button" id="logoutBtn" class="logout-link">Logout</button>
+      <header class="dashboard-topbar">
+        <div class="container dashboard-topbar-inner">
+          <div class="dashboard-brand">
+            <p class="dashboard-eyebrow">A/B Testing Platform</p>
+            <button type="button" data-nav-action="home" class="dashboard-home-btn">Experiment Hub</button>
           </div>
-          <p class="eyebrow">A/B Testing Platform</p>
-          <h1>Experiment Hub</h1>
-          <p class="subtitle">Track, search, and launch experiments without the clutter.</p>
+          <div class="top-nav dashboard-nav">
+            <button type="button" id="profileBtn" data-nav-action="profile" class="profile-chip" aria-label="Open profile">AR</button>
+          </div>
         </div>
       </header>
 
       <main class="container page">
-        <section class="panel controls">
-          <button id="addExperimentBtn" class="btn btn-primary" type="button">+ Add New Experiment</button>
+        <div class="dashboard-action-bar">
           <h2 class="section-title">Recent Experiments</h2>
+          <button id="addExperimentBtn" class="btn btn-primary" type="button">+ Add New Experiment</button>
+        </div>
+        <div class="dashboard-head-divider" aria-hidden="true"></div>
 
-          <div class="search-wrap">
-            <label for="homeSearch" class="sr-only">Search experiments</label>
-            <input id="homeSearch" type="search" placeholder="Search experiments by name or owner..." />
-          </div>
+        <div class="search-wrap dashboard-search-wrap">
+          <label for="homeSearch" class="sr-only">Search experiments</label>
+          <input id="homeSearch" type="search" placeholder="Search experiments by name or owner..." />
+        </div>
 
+        <section class="controls">
           <ul id="recentList" class="experiment-list"></ul>
           <p id="emptyRecent" class="empty-state" hidden>No experiments match your search.</p>
         </section>
 
-        <div class="footer-action">
+        <div id="seeAllExperimentsWrap" class="footer-action">
           <a class="btn btn-secondary" href="experiments.html">See All Experiments</a>
+        </div>
+
+        <div class="dashboard-branding-footer">
+          <p>Track, search, and launch experiments without the clutter.</p>
         </div>
       </main>
     </section>
 
     <section id="profileView" class="view view-profile" style="display: none">
+      <header class="dashboard-topbar">
+        <div class="container dashboard-topbar-inner">
+          <div class="dashboard-brand">
+            <p class="dashboard-eyebrow">A/B Testing Platform</p>
+            <button type="button" data-nav-action="home" class="dashboard-home-btn">Experiment Hub</button>
+          </div>
+          <div class="top-nav dashboard-nav">
+            <button type="button" data-nav-action="profile" class="profile-chip" aria-label="Open profile">AR</button>
+          </div>
+        </div>
+      </header>
+
       <header class="hero compact">
         <div class="hero-glow"></div>
         <div class="container">
+          <button type="button" id="profileBackBtn" class="btn btn-secondary config-inline-back-btn profile-inline-back-btn">
+            <span aria-hidden="true">←</span>
+            <span>Back</span>
+          </button>
           <p class="eyebrow">User Profile</p>
           <h1>Profile Overview</h1>
         </div>
@@ -208,42 +249,89 @@
 
       <main class="container page">
         <section class="panel profile-card">
-          <h2>Alex Rivera</h2>
-          <p class="profile-sub">Lead Product Manager</p>
+          <h2 id="profileName">Alex Rivera</h2>
+          <p id="profileRole" class="profile-sub">Role not specified</p>
 
           <div class="profile-grid">
-            <p><strong>Team:</strong> Growth & Experimentation</p>
-            <p><strong>Email:</strong> admin@company.com</p>
-            <p><strong>Experiments Run:</strong> 12</p>
-            <p><strong>Active Tests:</strong> 3</p>
+            <p><strong>Team:</strong> <span id="profileTeam">Team not assigned</span></p>
+            <p><strong>Email:</strong> <span id="profileEmail">admin@company.com</span></p>
+            <p><strong>Experiments Run:</strong> <span id="profileExperimentsRun">0</span></p>
+            <p><strong>Active Tests:</strong> <span id="profileActiveTests">0</span></p>
           </div>
+          <button type="button" id="profileLogoutBtn" class="btn btn-secondary">Logout</button>
 
-          <button type="button" id="backToDashboardBtn" class="btn btn-secondary">Back to Dashboard</button>
         </section>
       </main>
     </section>
 
     <div id="experiment-form-page" class="view" style="display: none">
+      <header class="dashboard-topbar">
+        <div class="container dashboard-topbar-inner">
+          <div class="dashboard-brand">
+            <p class="dashboard-eyebrow">A/B Testing Platform</p>
+            <button type="button" data-nav-action="home" class="dashboard-home-btn">Experiment Hub</button>
+          </div>
+          <div class="top-nav dashboard-nav">
+            <button type="button" data-nav-action="profile" class="profile-chip" aria-label="Open profile">AR</button>
+          </div>
+        </div>
+      </header>
+
       <header class="hero compact">
         <div class="container">
           <div class="config-head-row">
-            <div>
-              <p class="eyebrow">Experiment Setup</p>
-              <h1>Configure Experiment <span id="configTitleMode" class="config-mode">(New)</span></h1>
+            <button type="button" id="configBackBtn" class="btn btn-secondary config-inline-back-btn">
+              <span aria-hidden="true">←</span>
+              <span>Back</span>
+            </button>
+            <div class="workspace-switch-inline">
+              <p class="workspace-switch-heading">Experiment Name</p>
+              <button
+                type="button"
+                id="workspaceSwitcherToggle"
+                class="workspace-switcher-toggle"
+                aria-expanded="false"
+                aria-controls="workspaceSwitcherPanel"
+              >
+                <span class="workspace-switcher-toggle-label">Experiment:</span>
+                <span id="workspaceSwitcherLabel">New Experiment</span>
+              </button>
+              <aside id="workspaceSwitcherPanel" class="workspace-switcher-panel workspace-switcher-inline-panel" aria-hidden="true">
+                <div class="workspace-switcher-head">
+                  <h3>Switch Experiment</h3>
+                  <button
+                    type="button"
+                    id="workspaceSwitcherClose"
+                    class="workspace-switcher-close"
+                    aria-label="Close switcher"
+                  >
+                    ×
+                  </button>
+                </div>
+                <label for="workspaceSwitcherSearch" class="sr-only">Search experiments</label>
+                <input
+                  id="workspaceSwitcherSearch"
+                  type="search"
+                  placeholder="Search by name or owner..."
+                  autocomplete="off"
+                />
+                <ul id="workspaceSwitcherList" class="workspace-switcher-list"></ul>
+              </aside>
             </div>
-            <button type="button" id="configBackBtn" class="btn btn-secondary">Back to Dashboard</button>
           </div>
         </div>
       </header>
 
       <main class="container page">
-        <div class="panel workspace-panel">
+        <div class="workspace-shell-actions">
           <nav class="workspace-tabs" aria-label="Experiment workspace tabs">
             <button type="button" class="workspace-tab is-active" data-tab="configuration">Configuration</button>
             <button type="button" class="workspace-tab" data-tab="analytics">Analytics</button>
             <button type="button" class="workspace-tab" data-tab="history">History</button>
           </nav>
+        </div>
 
+        <div class="panel workspace-panel">
           <section id="workspaceConfigurationPanel" class="workspace-content">
             <form id="experimentConfigForm" class="config-form" novalidate>
               <div class="config-top-grid">
@@ -253,42 +341,53 @@
                 </label>
                 <label>
                   Feature Name
-                  <input type="text" name="featureName" placeholder="e.g. Hero Banner" required />
+                  <select name="featureName" required>
+                    <option value="">Select feature</option>
+                    <option>Homepage Hero Banner</option>
+                    <option>Pricing Page Layout</option>
+                    <option>Signup Flow</option>
+                    <option>Checkout CTA</option>
+                    <option>Navigation Labels</option>
+                    <option>Email Capture Modal</option>
+                    <option>Search Experience</option>
+                  </select>
                 </label>
               </div>
 
               <div class="filter-builder-head">
-                <h2 class="section-title">Filter Builder</h2>
-                <button type="button" id="addFilterRuleBtn" class="btn btn-secondary">+ Add Filter Rule</button>
+                <h2 class="section-title">Customer Segmentation</h2>
+                <button type="button" id="addFilterRuleBtn" class="btn btn-secondary">+ Add Filter Group</button>
               </div>
+              <pre id="filterDebugPanel" class="filter-debug-panel" style="display: none"></pre>
               <div id="filterRulesContainer" class="filter-rules"></div>
 
-              <div class="rollout-row">
-                <label for="rolloutControl">Rollout Control</label>
-                <input type="range" id="rolloutControl" name="rollout" min="0" max="100" value="50" />
-                <span id="rolloutValue" class="rollout-value">50%</span>
-              </div>
+              <section class="rollout-control-box">
+                <h2 class="section-title">Rollout Control</h2>
+                <div class="rollout-row">
+                  <label for="rolloutControl">Rollout Percentage</label>
+                  <input type="range" id="rolloutControl" name="rollout" min="0" max="100" value="50" />
+                  <span id="rolloutValue" class="rollout-value">50%</span>
+                </div>
+
+                <div class="audience-estimator">
+                  <button type="button" id="viewCountBtn" class="btn btn-secondary">🔍 View Count</button>
+                  <span id="countSpinner" class="count-spinner" aria-hidden="true"></span>
+                  <span id="audienceCountLabel" class="audience-count-label">Target Audience: -- users</span>
+                </div>
+              </section>
 
               <section class="test-logic-box">
                 <h2 class="section-title">Test Logic</h2>
                 <div class="test-row">
-                  <select name="testBy">
-                    <option>User ID</option>
-                    <option>Email ID</option>
-                    <option>Mobile Number</option>
+                  <select id="testTargetType" name="testTargetType" class="test-target-type" aria-label="Override type">
+                    <option value="user_id" selected>User ID</option>
+                    <option value="email">Email</option>
                   </select>
-                  <input type="text" name="testValue" placeholder="Type value here..." />
+                  <input type="text" id="testUserIdInput" name="testUserId" placeholder="Enter User ID (UUID)" />
                   <button type="button" id="testBtn" class="btn btn-primary">Test</button>
                 </div>
+                <p id="testMessage" class="form-message test-message" aria-live="polite"></p>
               </section>
-
-              <div class="config-footer">
-                <button type="button" id="saveDraftBtn" class="btn btn-secondary">Save Draft</button>
-                <button type="button" id="publishExperimentBtn" class="btn btn-primary">Publish Experiment</button>
-                <button type="button" id="pauseResumeBtn" class="btn btn-warning" style="display: none">Pause Experiment</button>
-                <button type="button" id="scheduleBtn" class="btn btn-secondary">Schedule</button>
-                <button type="button" id="configCloseBtn" class="btn btn-secondary">Close</button>
-              </div>
 
               <div id="scheduleWrap" class="schedule-wrap" style="display: none">
                 <label>
@@ -296,16 +395,24 @@
                   <input type="datetime-local" name="scheduleAt" />
                 </label>
               </div>
+
+              <div class="config-footer">
+                <button type="button" id="publishExperimentBtn" class="btn btn-primary">Publish Experiment</button>
+                <button type="button" id="pauseResumeBtn" class="btn btn-warning" style="display: none">Pause Experiment</button>
+                <button type="button" id="scheduleBtn" class="btn btn-secondary">Schedule</button>
+                <button type="button" id="saveDraftBtn" class="btn btn-secondary workspace-save-draft">Save Draft</button>
+              </div>
             </form>
           </section>
 
           <section id="workspaceAnalyticsPanel" class="workspace-content" style="display: none">
-            <div class="analytics-header">
+              <div class="analytics-header">
               <div>
                 <h2 id="analyticsExperimentName">Experiment Name</h2>
                 <p id="analyticsFeatureName" class="analytics-sub">Feature Name</p>
               </div>
               <div class="analytics-header-right">
+                <button type="button" id="downloadAnalyticsPdfBtn" class="btn btn-secondary analytics-download-btn">Download PDF</button>
                 <span id="analyticsStatusBadge" class="status saved">Saved</span>
                 <span id="analyticsRollout" class="rollout-pill">0%</span>
               </div>
@@ -317,98 +424,100 @@
             </div>
 
             <div id="analyticsDataSections">
-              <div class="kpi-strip">
-                <article class="kpi-card">
-                  <p>Lift</p>
-                  <h3 id="kpiLift" class="kpi-positive">+0.0%</h3>
-                </article>
-                <article class="kpi-card">
-                  <p>Significance</p>
-                  <h3 id="kpiSignificance">Inconclusive</h3>
-                </article>
-                <article class="kpi-card">
-                  <p>Users Exposed</p>
-                  <h3 id="kpiUsers">0</h3>
-                </article>
-                <article class="kpi-card">
-                  <p>Guardrails</p>
-                  <h3 id="kpiGuardrails">All Healthy</h3>
-                </article>
-                <article class="kpi-card">
-                  <p>Recommendation</p>
-                  <h3 id="kpiRecommendation">Wait</h3>
-                </article>
-              </div>
-
               <section class="analytics-card">
-                <div class="metric-sticky">
-                  <label>
-                    View Metric
-                    <select id="metricViewSelect">
-                      <option value="signup_success_rate">Sign-up Success Rate</option>
-                      <option value="day1_day7_retention">Day 1 to Day 7 Retention</option>
-                      <option value="conversion_rate">Conversion Rate</option>
-                    </select>
-                  </label>
-                </div>
-
-                <div class="table-wrap">
-                  <table class="comparison-table">
-                    <thead>
-                      <tr>
-                        <th>Variant</th>
-                        <th>Users</th>
-                        <th>Value</th>
-                        <th>Lift</th>
-                        <th>P-Value</th>
-                      </tr>
-                    </thead>
-                    <tbody id="comparisonTableBody"></tbody>
-                  </table>
+                <div class="metric-sticky analytics-view-head">
+                  <div class="analytics-selector-row">
+                    <label>
+                      Metric
+                      <select id="analyticsMetricSelect">
+                        <option value="activation" selected>Activation</option>
+                        <option value="retention">Retention</option>
+                      </select>
+                    </label>
+                    <label>
+                      Format
+                      <select id="analyticsFormatSelect">
+                        <option value="table" selected>Table</option>
+                        <option value="chart">Chart</option>
+                      </select>
+                    </label>
+                  </div>
                 </div>
               </section>
 
-              <section class="analytics-card">
+              <section id="analyticsChartCard" class="analytics-card">
                 <div class="trend-header">
-                  <h3>Trend</h3>
-                  <div class="trend-toggle">
-                    <label><input type="radio" name="trendMode" value="daily" checked /> Daily</label>
-                    <label><input type="radio" name="trendMode" value="cumulative" /> Cumulative</label>
-                  </div>
+                  <h3 id="analyticsChartTitle">Activation Trend (D0-D7)</h3>
                 </div>
                 <canvas id="analyticsTrendChart" height="120"></canvas>
               </section>
 
-              <details class="analytics-card">
-                <summary>Segmentation: New vs Returning</summary>
-                <div id="segmentationBreakdown" class="details-grid"></div>
-              </details>
+              <section id="analyticsTablesCard" class="analytics-card" style="display: none">
+                <h3 id="analyticsTableTitle">Activation Cohorts (Last 7 Days)</h3>
+                <p class="analytics-sub analytics-section-label analytics-delta-title">Net Impact (Test vs. Control)</p>
+                <div class="table-wrap">
+                  <table class="cohort-table cohort-table-delta">
+                    <thead>
+                      <tr>
+                        <th>Cohort Date</th>
+                        <th>D0</th>
+                        <th>D1</th>
+                        <th>D2</th>
+                        <th>D3</th>
+                        <th>D4</th>
+                        <th>D5</th>
+                        <th>D6</th>
+                        <th>D7</th>
+                      </tr>
+                    </thead>
+                    <tbody id="deltaCohortBody"></tbody>
+                  </table>
+                </div>
 
-              <section class="analytics-card">
-                <h3>Guardrails</h3>
-                <div id="guardrailGrid" class="guardrail-grid"></div>
+                <p class="analytics-sub analytics-section-label">Control</p>
+                <div class="table-wrap">
+                  <table class="cohort-table cohort-table-main">
+                    <thead>
+                      <tr>
+                        <th>Cohort Date</th>
+                        <th>Users</th>
+                        <th>D0</th>
+                        <th>D1</th>
+                        <th>D2</th>
+                        <th>D3</th>
+                        <th>D4</th>
+                        <th>D5</th>
+                        <th>D6</th>
+                        <th>D7</th>
+                      </tr>
+                    </thead>
+                    <tbody id="controlCohortBody"></tbody>
+                  </table>
+                </div>
+
+                <p class="analytics-sub analytics-section-label">Test</p>
+                <div class="table-wrap">
+                  <table class="cohort-table cohort-table-main">
+                    <thead>
+                      <tr>
+                        <th>Cohort Date</th>
+                        <th>Users</th>
+                        <th>D0</th>
+                        <th>D1</th>
+                        <th>D2</th>
+                        <th>D3</th>
+                        <th>D4</th>
+                        <th>D5</th>
+                        <th>D6</th>
+                        <th>D7</th>
+                      </tr>
+                    </thead>
+                    <tbody id="testCohortBody"></tbody>
+                  </table>
+                </div>
               </section>
 
-              <details class="analytics-card">
-                <summary>Statistics</summary>
-                <div id="statsGrid" class="details-grid"></div>
-              </details>
-
-              <section class="analytics-card">
-                <h3>Decision Log</h3>
-                <label>
-                  Learnings
-                  <textarea id="decisionLearnings" rows="4" placeholder="Capture insights from this experiment..."></textarea>
-                </label>
-                <label>
-                  Decision
-                  <select id="decisionSelect">
-                    <option>Ship</option>
-                    <option>Iterate</option>
-                    <option>Stop</option>
-                  </select>
-                </label>
-              </section>
+              <p id="analyticsNoData" class="empty-state" hidden>No cohort data found for this experiment in the last 7 days.</p>
             </div>
           </section>
 
@@ -422,6 +531,21 @@
           </section>
         </div>
       </main>
+    </div>
+
+    <div id="unsavedSwitchModal" class="modal-shell" style="display: none" aria-hidden="true">
+      <div class="modal-card panel">
+        <div class="modal-head">
+          <h2>Unsaved Changes</h2>
+        </div>
+        <p class="history-subtitle">
+          You have unsaved changes. If you switch experiments now, those changes will be discarded unless you save.
+        </p>
+        <div class="config-footer">
+          <button type="button" id="unsavedCancelBtn" class="btn btn-secondary">Cancel</button>
+          <button type="button" id="unsavedSaveDraftBtn" class="btn btn-secondary">Save Draft & Switch</button>
+        </div>
+      </div>
     </div>
 
     <div id="metadataModal" class="modal-shell" style="display: none" aria-hidden="true">
@@ -463,8 +587,13 @@
       </div>
     </div>
 
+    <div id="appToast" class="app-toast" aria-live="polite"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="data.js?v=20260211-rbac-workspace-iter16"></script>
-    <script src="app.js?v=20260211-rbac-workspace-iter16"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="data.js?v=20260213-rbac-workspace-iter136"></script>
+    <script src="app.js?v=20260213-rbac-workspace-iter136"></script>
   </body>
 </html>

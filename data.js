@@ -45,9 +45,17 @@ function withDefaults(experiment) {
       ? experiment.updatedAtTs
       : Number(new Date(`${experiment.updatedAt || "1970-01-01"}T00:00:00`).getTime());
 
-  const filters = Array.isArray(config.filters) && config.filters.length
+  const hasGroupedFilters =
+    config.filters &&
+    typeof config.filters === "object" &&
+    !Array.isArray(config.filters) &&
+    Array.isArray(config.filters.groups);
+
+  const filters = hasGroupedFilters
     ? config.filters
-    : legacySegmentsToFilters(config.segments);
+    : Array.isArray(config.filters) && config.filters.length
+      ? config.filters
+      : legacySegmentsToFilters(config.segments);
 
   const history = Array.isArray(experiment.history) ? experiment.history : [];
   if (!history.length) {
@@ -232,6 +240,7 @@ function renderList(listEl, emptyEl, experiments, options = {}) {
   emptyEl.hidden = true;
   const showEdit = Boolean(options.showEdit);
   const actionMode = options.actionMode || (showEdit ? "edit" : "none");
+  const canDelete = Boolean(options.canDelete);
 
   experiments.forEach((experiment) => {
     const li = document.createElement("li");
@@ -251,6 +260,15 @@ function renderList(listEl, emptyEl, experiments, options = {}) {
               <path d="M4 20h4l10-10a2 2 0 0 0-4-4L4 16v4zM13 7l4 4" />
             </svg>
           </button>
+          ${
+            canDelete
+              ? `<button type="button" class="icon-action delete-action" data-action="delete" title="Delete experiment" aria-label="Delete experiment">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16M9 7V5h6v2M8 7l1 12h6l1-12M10 11v6M14 11v6" />
+            </svg>
+          </button>`
+              : ""
+          }
         </div>
       `;
     } else if (showEdit) {
